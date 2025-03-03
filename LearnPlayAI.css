@@ -6,6 +6,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    transform: scale(0.3); /* Thu nhỏ 30% */
+    transform-origin: top left; /* Điểm thu nhỏ bắt đầu từ góc trên trái */
 }
 
 .logo {
