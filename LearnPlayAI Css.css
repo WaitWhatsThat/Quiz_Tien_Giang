@@ -1,15 +1,13 @@
 .logo {
-    position: absolute;
-    top: 50px;
-    left: 100px;
+    display: inline-block;
     width: 50px;
-    height: auto;
+    vertical-align: middle;
 }
 
-.logo text {
-    position: absolute;
-    top: 50px;
-    left: 160px;
+.logo-text {
+    display: inline-block;
     font-size: 20px;
     font-weight: bold;
+    margin-left: 10px;
+    vertical-align: middle;
 }
