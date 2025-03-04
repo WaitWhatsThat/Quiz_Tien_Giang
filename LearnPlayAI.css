@@ -1,20 +1,17 @@
 .logo-container {
-    display: flex;
-    align-items: center;  /* Căn giữa logo và chữ theo chiều dọc */
-    justify-content: center;  /* Căn giữa toàn bộ khối */
+    display: flex; /* Sắp xếp theo hàng ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left: 20px; /* Cách viền trái 20px (tuỳ chỉnh theo ý bạn) */
+    top: 20px; /* Cách viền trên 20px */
 }
 
 .logo {
-    transform: scale(0.3); /* Thu nhỏ 30% */
-    transform-origin: top left; /* Điểm thu nhỏ bắt đầu từ góc trên trái */
+    height: 50px; /* Tuỳ chỉnh kích thước logo */
 }
 
 .logo-text {
-    font-size: 24px;
-    color: white; /* Giữ chữ nổi bật trên nền đen */
-    margin-left: 15px; /* Tạo khoảng cách giữa logo và chữ */
+    margin-left: 10px; /* Khoảng cách giữa logo và chữ */
+    font-size: 20px; /* Tuỳ chỉnh kích thước chữ */
+    font-weight: bold;
 }
