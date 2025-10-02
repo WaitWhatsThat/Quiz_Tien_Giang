@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Tiền Giang Đổi Mới - Thử Thách Tri Thức</title>
+    <meta name="description"
+        content="Trò chơi trắc nghiệm về Tiền Giang trong thời kỳ đổi mới, giúp bạn nâng cao kiến thức và hiểu biết về vùng đất phù sa.">
+    <meta name="keywords"
+        content="Quiz, Tiền Giang, Đổi Mới, Tri Thức, Trắc Nghiệm, Học Tập, Vùng Đất Phù Sa, Văn Hóa, Lịch Sử, Địa Lý">
+    <meta name="news_keywords"
+        content="Quiz, Tiền Giang, Đổi Mới, Tri Thức, Trắc Nghiệm, Học Tập, Vùng Đất Phù Sa, Văn Hóa, Lịch Sử, Địa Lý">
+    <meta property="og:title" content="Quiz Tiền Giang Đổi Mới - Thử Thách Tri Thức">
+    <meta property="og:description" content="Trò chơi trắc nghiệm về Tiền Giang trong thời kỳ đổi mới">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/WaitWhatsThat/Quiz_Tien_Giang/">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Fira Code, JetBrains Mono, Consolas, 'Courier New', monospace";
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #87ceeb 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating clouds animation */
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            opacity: 0.6;
+            animation: float 20s infinite linear;
+        }
+
+        .cloud:before {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+        }
+
+        .cloud1 {
+            width: 80px;
+            height: 30px;
+            top: 20%;
+            animation-delay: 0s;
+        }
+
+        .cloud2 {
+            width: 60px;
+            height: 25px;
+            top: 40%;
+            animation-delay: -10s;
+        }
+
+        .cloud3 {
+            width: 100px;
+            height: 35px;
+            top: 60%;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateX(-100px);
+            }
+
+            100% {
+                transform: translateX(calc(100vw + 100px));
+            }
+        }
+
+        .game-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 20px;
+            border: 3px solid #1e40af;
+            box-shadow: 0 10px 30px rgba(30, 64, 175, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        .game-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e40af;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #475569;
+            font-style: italic;
+            position: relative;
+            z-index: 2;
+        }
+
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            border: 3px solid #3b82f6;
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.3);
+            position: relative;
+        }
+
+        .progress-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: linear-gradient(90deg, #dbeafe, #e0f2fe);
+            border-radius: 12px;
+            border: 2px solid #3b82f6;
+        }
+
+        .question-counter {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            color: #1e40af;
+            font-size: 1.1rem;
+        }
+
+        .score-display {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            color: #059669;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar {
+            flex: 1;
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 12px;
+            margin: 0 20px;
+            overflow: hidden;
+            border: 1px solid #3b82f6;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            transition: width 0.5s ease;
+            border-radius: 9px;
+        }
+
+        .question-section {
+            margin-bottom: 30px;
+            min-height: 200px;
+        }
+
+        .question-text {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e40af;
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(145deg, #f0f9ff, #e0f2fe);
+            border-radius: 15px;
+            border: 2px solid #0ea5e9;
+            line-height: 1.6;
+        }
+
+        .answers-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .answer-btn {
+            padding: 20px;
+            background: linear-gradient(145deg, #dbeafe, #bfdbfe);
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e40af;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .answer-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(145deg, #bfdbfe, #93c5fd);
+        }
+
+        .answer-btn.correct {
+            background: linear-gradient(145deg, #dcfce7, #bbf7d0);
+            border-color: #059669;
+            color: #065f46;
+            animation: bounce 0.6s ease;
+        }
+
+        .answer-btn.incorrect {
+            background: linear-gradient(145deg, #fee2e2, #fecaca);
+            border-color: #dc2626;
+            color: #991b1b;
+            animation: shake 0.6s ease;
+        }
+
+        .answer-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            60%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            80% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-5px);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(5px);
+            }
+        }
+
+        .next-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(145deg, #059669, #047857);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(5, 150, 105, 0.3);
+            display: none;
+        }
+
+        .next-btn:hover {
+            background: linear-gradient(145deg, #047857, #065f46);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.4);
+        }
+
+        .result-section {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(145deg, #fef3c7, #fde68a);
+            border-radius: 20px;
+            border: 3px solid #f59e0b;
+            margin-top: 20px;
+        }
+
+        .result-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 15px;
+        }
+
+        .result-score {
+            font-size: 1.5rem;
+            color: #1e40af;
+            margin-bottom: 20px;
+        }
+
+        .result-message {
+            font-size: 1.2rem;
+            color: #475569;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .restart-btn {
+            padding: 15px 30px;
+            background: linear-gradient(145deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .restart-btn:hover {
+            background: linear-gradient(145deg, #2563eb, #1d4ed8);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .fun-fact {
+            background: linear-gradient(145deg, #f0fdf4, #dcfce7);
+            border: 2px solid #059669;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .fun-fact-title {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            color: #065f46;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .fun-fact-text {
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .answers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .game-title {
+                font-size: 1.8rem;
+            }
+
+            .question-text {
+                font-size: 1.2rem;
+            }
+
+            .progress-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .progress-bar {
+                margin: 0;
+                width: 100%;
+            }
+        }
+
+        .emoji-rain {
+            position: fixed;
+            top: -50px;
+            font-size: 2rem;
+            animation: fall 3s linear infinite;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Floating clouds -->
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+    <div class="cloud cloud3"></div>
+
+    <div class="game-container">
+        <div class="header">
+            <h1 class="game-title">🎓 Quiz Tiền Giang Đổi Mới 🎓</h1>
+            <p class="subtitle">Thử Thách Tri Thức Về Vùng Đất Phù Sa</p>
+        </div>
+
+        <div class="quiz-container">
+            <div class="progress-section">
+                <div class="question-counter">
+                    <span>📝 Câu hỏi: </span>
+                    <span id="currentQuestion">1</span>/<span id="totalQuestions">10</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 10%"></div>
+                </div>
+                <div class="score-display">
+                    <span>🏆 Điểm: </span>
+                    <span id="currentScore">0</span>
+                </div>
+            </div>
+
+            <div class="question-section" id="questionSection">
+                <div class="question-text" id="questionText">
+                    Tiền Giang được biết đến với biệt danh nào trong thời kỳ đổi mới?
+                </div>
+
+                <div class="answers-grid" id="answersGrid">
+                    <!-- Answers will be populated by JavaScript -->
+                </div>
+
+                <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+                    Câu hỏi tiếp theo 🚀
+                </button>
+            </div>
+
+            <div class="fun-fact" id="funFact">
+                <div class="fun-fact-title">🌟 Bạn có biết?</div>
+                <div class="fun-fact-text" id="funFactText"></div>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-title" id="resultTitle">🎉 Chúc Mừng!</div>
+                <div class="result-score" id="finalScore">Bạn đã trả lời đúng 0/10 câu hỏi</div>
+                <div class="result-message" id="resultMessage"></div>
+                <button class="restart-btn" onclick="restartQuiz()">🔄 Chơi Lại</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quiz data
+        const quizData = [
+            {
+                question: "Tiền Giang được biết đến với biệt danh nào trong thời kỳ đổi mới?",
+                answers: ["Vùng đất Phù Sa", "Miệt Vườn Sông Nước", "Cửa Ngõ Phía Nam", "Đồng Bằng Xanh"],
+                correct: 0,
+                funFact: "Tiền Giang được mệnh danh là 'Vùng đất Phù Sa' nhờ hệ thống sông ngòi phù sa màu mỡ, tạo điều kiện thuận lợi cho nông nghiệp phát triển!"
+            },
+            {
+                question: "Sản phẩm nông nghiệp nào của Tiền Giang nổi tiếng nhất trong công cuộc đổi mới?",
+                answers: ["Gạo ST25", "Xoài Cát Chu", "Dừa Bến Tre", "Nhãn Hưng Yên"],
+                correct: 0,
+                funFact: "Gạo ST25 của Tiền Giang đã giành giải 'Gạo ngon nhất thế giới' năm 2019, đưa tên tuổi Việt Nam vang danh quốc tế!"
+            },
+            {
+                question: "Thành phố trung tâm của tỉnh Tiền Giang là?",
+                answers: ["Cai Lậy", "Mỹ Tho", "Gò Công", "Cai Bè"],
+                correct: 1,
+                funFact: "Mỹ Tho không chỉ là trung tâm hành chính mà còn là cửa ngõ du lịch quan trọng với các tour du lịch sông nước độc đáo!"
+            },
+            {
+                question: "Con sông nào chảy qua Tiền Giang và có vai trò quan trọng trong phát triển kinh tế?",
+                answers: ["Sông Hậu", "Sông Tiền", "Sông Vàm Cỏ", "Sông Đồng Nai"],
+                correct: 1,
+                funFact: "Sông Tiền là một nhánh của sông Mekong, mang phù sa màu mỡ và tạo ra hệ sinh thái đa dạng cho vùng đồng bằng!"
+            },
+            {
+                question: "Tiền Giang nổi tiếng với loại trái cây nào được xuất khẩu nhiều nhất?",
+                answers: ["Xoài", "Chôm chôm", "Nhãn", "Dưa hấu"],
+                correct: 0,
+                funFact: "Xoài Tiền Giang với nhiều giống như Cát Chu, Tượng, Keo Savoy đã chinh phục thị trường quốc tế nhờ chất lượng tuyệt vời!"
+            },
+            {
+                question: "Trong thời kỳ đổi mới, Tiền Giang phát triển mạnh ngành nào?",
+                answers: ["Du lịch sinh thái", "Công nghiệp nặng", "Khai thác dầu khí", "Công nghệ cao"],
+                correct: 0,
+                funFact: "Du lịch sinh thái sông nước với các tour thăm vườn trái cây, làng nghề truyền thống đã trở thành thương hiệu của Tiền Giang!"
+            },
+            {
+                question: "Đặc sản nào của Tiền Giang được UNESCO công nhận?",
+                answers: ["Bánh tráng nướng", "Hủ tiếu Mỹ Tho", "Kẹo dừa Bến Tre", "Nem nướng Nha Trang"],
+                correct: 1,
+                funFact: "Hủ tiếu Mỹ Tho với nước dùng trong vắt, tôm tươi và thịt heo đã trở thành biểu tượng ẩm thực của vùng sông nước!"
+            },
+            {
+                question: "Tiền Giang có bao nhiêu huyện và thành phố?",
+                answers: ["8 huyện, 2 thành phố", "7 huyện, 1 thành phố", "9 huyện, 1 thành phố", "6 huyện, 2 thành phố"],
+                correct: 1,
+                funFact: "Tiền Giang có 7 huyện (Tân Phước, Cái Bè, Cai Lậy, Châu Thành, Chợ Gạo, Gò Công Đông, Gò Công Tây) và 1 thành phố Mỹ Tho!"
+            },
+            {
+                question: "Lễ hội nào là đặc trưng của Tiền Giang trong mùa trái cây?",
+                answers: ["Lễ hội Óc Bom Boc", "Lễ hội Trái cây Nam Bộ", "Lễ hội Đền Hùng", "Lễ hội Hoa Ban"],
+                correct: 1,
+                funFact: "Lễ hội Trái cây Nam Bộ tại Tiền Giang thu hút hàng triệu du khách mỗi năm với hàng trăm loại trái cây đặc sản!"
+            },
+            {
+                question: "Tiền Giang được thành lập năm nào?",
+                answers: ["1975", "1976", "1977", "1978"],
+                correct: 1,
+                funFact: "Tỉnh Tiền Giang được thành lập năm 1976 sau khi tách ra từ tỉnh Định Tường cũ, mở ra kỷ nguyên phát triển mới!"
+            }
+        ];
+
+        // Game state
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedAnswer = null;
+
+        // Initialize quiz
+        function initQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            selectedAnswer = null;
+            document.getElementById('currentScore').textContent = score;
+            document.getElementById('questionSection').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('funFact').style.display = 'none';
+            showQuestion();
+        }
+
+        // Show current question
+        function showQuestion() {
+            const question = quizData[currentQuestionIndex];
+            document.getElementById('questionText').textContent = question.question;
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+
+            const answersGrid = document.getElementById('answersGrid');
+            answersGrid.innerHTML = '';
+
+            question.answers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.className = 'answer-btn';
+                button.textContent = answer;
+                button.onclick = () => selectAnswer(index);
+                answersGrid.appendChild(button);
+            });
+
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('funFact').style.display = 'none';
+            selectedAnswer = null;
+
+            // Update progress bar
+            const progress = ((currentQuestionIndex + 1) / quizData.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Select answer
+        function selectAnswer(answerIndex) {
+            if (selectedAnswer !== null) return;
+
+            selectedAnswer = answerIndex;
+            const question = quizData[currentQuestionIndex];
+            const buttons = document.querySelectorAll('.answer-btn');
+
+            buttons.forEach((button, index) => {
+                button.disabled = true;
+                if (index === question.correct) {
+                    button.classList.add('correct');
+                } else if (index === answerIndex && answerIndex !== question.correct) {
+                    button.classList.add('incorrect');
+                }
+            });
+
+            if (answerIndex === question.correct) {
+                score += 10;
+                document.getElementById('currentScore').textContent = score;
+                createEmojiRain(['🎉', '⭐', '🏆', '✨']);
+            } else {
+                createEmojiRain(['😅', '💭', '🤔']);
+            }
+
+            // Show fun fact
+            document.getElementById('funFactText').textContent = question.funFact;
+            document.getElementById('funFact').style.display = 'block';
+            // Show next button or finish quiz
+            setTimeout(() => {
+                if (currentQuestionIndex < quizData.length - 1) {
+                    document.getElementById('nextBtn').style.display = 'block';
+                } else {
+                    finishQuiz();
+                }
+            }, 1500);
+        }
+
+        // Next question
+        function nextQuestion() {
+            currentQuestionIndex++;
+            showQuestion();
+        }
+
+        // Finish quiz
+        function finishQuiz() {
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+
+            const percentage = (score / (quizData.length * 10)) * 100;
+            document.getElementById('finalScore').textContent = `Bạn đã trả lời đúng ${score / 10}/${quizData.length} câu hỏi`;
+
+            let title, message;
+            if (percentage >= 90) {
+                title = "🏆 Xuất Sắc!";
+                message = "Bạn là chuyên gia về Tiền Giang! Kiến thức của bạn thật ấn tượng về vùng đất phù sa này. 🌟";
+                createEmojiRain(['🏆', '🎉', '⭐', '👑', '🥇']);
+            } else if (percentage >= 70) {
+                title = "🎉 Tuyệt Vời!";
+                message = "Bạn có hiểu biết khá tốt về Tiền Giang trong thời kỳ đổi mới. Hãy tiếp tục tìm hiểu thêm! 📚";
+                createEmojiRain(['🎉', '👏', '⭐', '🌟']);
+            } else if (percentage >= 50) {
+                title = "😊 Khá Tốt!";
+                message = "Bạn đã có những kiến thức cơ bản về Tiền Giang. Hãy khám phá thêm về vùng đất tuyệt vời này! 🌾";
+                createEmojiRain(['😊', '👍', '📖']);
+            } else {
+                title = "🤗 Cố Gắng Lên!";
+                message = "Đừng lo lắng! Hãy tìm hiểu thêm về Tiền Giang và thử lại. Mỗi lần chơi là một cơ hội học hỏi! 💪";
+                createEmojiRain(['🤗', '💪', '📚']);
+            }
+
+            document.getElementById('resultTitle').textContent = title;
+            document.getElementById('resultMessage').textContent = message;
+        }
+
+        // Create emoji rain effect
+        function createEmojiRain(emojis) {
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const emoji = document.createElement('div');
+                    emoji.className = 'emoji-rain';
+                    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    emoji.style.left = Math.random() * 100 + 'vw';
+                    emoji.style.animationDelay = Math.random() * 2 + 's';
+                    emoji.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    document.body.appendChild(emoji);
+
+                    setTimeout(() => {
+                        emoji.remove();
+                    }, 5000);
+                }, i * 100);
+            }
+        }
+
+        // Restart quiz
+        function restartQuiz() {
+            initQuiz();
+        }
+
+        // Start the quiz
+        initQuiz();
+    </script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'97c52c3fc7cea90a',t:'MTc1NzQwNTA0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+</body>
+
+</html>
